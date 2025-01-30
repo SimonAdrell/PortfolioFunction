@@ -19,8 +19,10 @@ namespace CoBySi.Function
             _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             using (var httpClient = new HttpClient())
             {
+                var stopwatch = System.Diagnostics.Stopwatch.StartNew();
                 var response = await httpClient.GetAsync("https://www.codebysimon.com");
-                _logger.LogError("HTTP request status code: {StatusCode}", response.StatusCode);
+                stopwatch.Stop();
+                _logger.LogInformation("HTTP request status code: {StatusCode} {ElapsedMilliseconds} ms", response.StatusCode, stopwatch.ElapsedMilliseconds);
             }
 
             if (myTimer.ScheduleStatus is not null)
